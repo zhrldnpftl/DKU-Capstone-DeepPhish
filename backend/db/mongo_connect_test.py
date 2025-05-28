@@ -11,3 +11,5 @@ doc = db.voice_meta.find_one()
 
 print("✅ 연결 성공! voice_meta 첫 데이터:")
 print(doc)
+
+
