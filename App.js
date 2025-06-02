@@ -13,6 +13,7 @@ import DetectLoadingPage from './src/screens/DetectLoadingPage';
 import DetectResultPage from './src/screens/DetectResultPage';
 import PhoneCheckPage from './src/screens/PhoneCheckPage';
 import ReportPage from './src/screens/ReportPage';
+// GuidePage와 SafetyPage는 HomePage 내에서 모달로 사용되므로 여기서 import하지 않음
 
 const Stack = createStackNavigator();
 
