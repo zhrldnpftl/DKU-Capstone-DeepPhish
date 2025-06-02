@@ -3,20 +3,60 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import HeaderBar from '../components/HeaderBar';
+import Toast from 'react-native-toast-message';
 
 export default function PhoneCheckPage({ route }) {
   const [inputNumber, setInputNumber] = useState(route?.params?.phoneNumber || '');
   const [result, setResult] = useState(null);
 
-  const handleSearch = () => {
-    // ✅ 실제로는 백엔드 API 또는 크롤링 결과 연동
-    // 임시 결과 시뮬레이션
-    setResult({
-      reportCount: 3,
-      pattern: '사칭형 피싱',
-      risk: '⚠️ 위험 등급: 높음',
-    });
+  const handleSearch = async () => {
+    console.log("🟡 입력된 전화번호:", inputNumber);
+    try {
+      console.log("try문 진입입");
+                                    // http://localhost:5000/check-phone
+                                    // 이 localhost 부분을 서버의 ip 주소로 넣고 실행해야 앱에서 실행됨
+      const response = await fetch('http://192.168.219.104:5000/check-phone', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ phone_number: inputNumber }),
+      });
+
+      const data = await response.json();
+      console.log("1. 받아온 데이터 data : ", data);
+      console.log("2. response : ", response);
+      if (response.ok) {
+        setResult({
+          reportCount: data.reportCount,
+          pattern: data.pattern,
+          risk: data.risk,
+        });
+
+        Toast.show({
+          type: 'success',
+          text1: '✅ 조회 성공!',
+          text2: `${data.reportCount}건의 신고 이력이 있어요.`,
+        });
+
+      } else {
+        Toast.show({
+          type: 'error',
+          text1: '🚨 조회 실패',
+          text2: data.error || '서버 오류가 발생했어요.',
+        });
+      }
+    } catch (error) {
+      console.error('조회 중 오류 발생:', error);
+      Toast.show({
+        type: 'error',
+        text1: '❌ 서버 연결 실패',
+        text2: '서버에 연결할 수 없습니다.',
+      });
+    }
   };
+
+
 
   return (
     <View style={styles.container}>
