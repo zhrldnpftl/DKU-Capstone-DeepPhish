@@ -1,0 +1,26 @@
+# 루트 .gitignore 생성
+@'
+# 각 서브프로젝트별 ignore
+DeepPhish-App/node_modules/
+DeepPhish-App/.expo/
+Deepvoice-Detection/__pycache__/
+Deepvoice-Detection/*.pyc
+Phishing-context-Detection/__pycache__/
+Phishing-context-Detection/*.pyc
+
+# 공통 ignore
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# 대용량 모델 파일
+*.h5
+*.pkl
+*.pt
+*.pth
+
+# 데이터 파일
+data/
+datasets/
+'@ | Out-File -FilePath ".gitignore" -Encoding UTF8

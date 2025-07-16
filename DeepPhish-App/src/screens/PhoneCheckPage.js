@@ -5,6 +5,12 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import HeaderBar from '../components/HeaderBar';
 import Toast from 'react-native-toast-message';
 
+// ✅ 서버 주소 함수
+const getServerUrl = () => {
+  return 'http://192.168.219.104:5000'; // ✅ 현재 PC의 IP로 고정
+};
+
+
 export default function PhoneCheckPage({ route }) {
   const [inputNumber, setInputNumber] = useState(route?.params?.phoneNumber || '');
   const [result, setResult] = useState(null);
@@ -12,10 +18,9 @@ export default function PhoneCheckPage({ route }) {
   const handleSearch = async () => {
     console.log("🟡 입력된 전화번호:", inputNumber);
     try {
-      console.log("try문 진입입");
-                                    // http://localhost:5000/check-phone
-                                    // 이 localhost 부분을 서버의 ip 주소로 넣고 실행해야 앱에서 실행됨
-      const response = await fetch('http://192.168.219.104:5000/check-phone', {
+      console.log("🔍 서버에 조회 요청 중...");
+
+      const response = await fetch(`${getServerUrl()}/check-phone`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -24,8 +29,8 @@ export default function PhoneCheckPage({ route }) {
       });
 
       const data = await response.json();
-      console.log("1. 받아온 데이터 data : ", data);
-      console.log("2. response : ", response);
+      console.log("📦 받아온 데이터:", data);
+
       if (response.ok) {
         setResult({
           reportCount: data.reportCount,
@@ -38,7 +43,6 @@ export default function PhoneCheckPage({ route }) {
           text1: '✅ 조회 성공!',
           text2: `${data.reportCount}건의 신고 이력이 있어요.`,
         });
-
       } else {
         Toast.show({
           type: 'error',
@@ -47,7 +51,7 @@ export default function PhoneCheckPage({ route }) {
         });
       }
     } catch (error) {
-      console.error('조회 중 오류 발생:', error);
+      console.error('❌ 서버 연결 오류:', error);
       Toast.show({
         type: 'error',
         text1: '❌ 서버 연결 실패',
@@ -55,8 +59,6 @@ export default function PhoneCheckPage({ route }) {
       });
     }
   };
-
-
 
   return (
     <View style={styles.container}>
@@ -87,6 +89,7 @@ export default function PhoneCheckPage({ route }) {
   );
 }
 
+// 💅 스타일 정의
 const styles = StyleSheet.create({
   container: {
     flex: 1,

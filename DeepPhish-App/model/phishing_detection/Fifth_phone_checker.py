@@ -13,6 +13,7 @@ def check_phone_number(phone_number):
     options = Options()
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
+    options.add_argument("--headless=new")
     service = Service()
 
     driver = None

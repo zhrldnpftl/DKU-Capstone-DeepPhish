@@ -1,5 +1,4 @@
-# voicephishing_KoBERT_predictor.py
-
+import os
 import torch
 from torch import nn
 from transformers import BertTokenizer
@@ -9,7 +8,7 @@ from kobert_transformers import get_tokenizer, get_kobert_model
 DEFAULT_THRESHOLD = 0.80
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# 모델 구조 정의
+# 🔧 모델 구조 정의
 class KoBERTClassifier(nn.Module):
     def __init__(self, bert_model, hidden_size=768, num_classes=2, dr_rate=0.3):
         super(KoBERTClassifier, self).__init__()
@@ -26,24 +25,30 @@ class KoBERTClassifier(nn.Module):
         logits = self.classifier(cls_output)
         return self.softmax(logits)
 
-# 토크나이저 및 모델 로딩
+# ✅ 토크나이저 및 모델 로딩
 tokenizer = get_tokenizer()
 kobert_model = get_kobert_model()
 model = KoBERTClassifier(kobert_model).to(device)
-model.load_state_dict(torch.load("voicephishing_model_threshold_080.pt", map_location=device))
+
+# 📂 모델 경로 안전하게 설정
+model_path = os.path.join(os.path.dirname(__file__), "voicephishing_model_threshold_080.pt")
+model.load_state_dict(torch.load(model_path, map_location=device))
 model.eval()
 
-# 예측 함수
+# ✅ 예측 함수
 def predict_phishing_label(texts, threshold=DEFAULT_THRESHOLD, max_len=128):
     if isinstance(texts, str):
-        texts = [texts]  # 문자열 하나 입력된 경우도 처리
+        texts = [texts]  # 단일 문자열 입력 처리
     pred_labels, confidences = [], []
 
     with torch.no_grad():
         for text in texts:
             encoded = tokenizer(
-                text, padding='max_length', truncation=True,
-                max_length=max_len, return_tensors='pt'
+                text,
+                padding='max_length',
+                truncation=True,
+                max_length=max_len,
+                return_tensors='pt'
             )
             input_ids = encoded['input_ids'].to(device)
             attention_mask = encoded['attention_mask'].to(device)
