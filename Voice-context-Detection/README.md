@@ -87,3 +87,5 @@ STT된 통화 데이터를 문맥적으로 분석하기 위해 KoBERT 기반 모
 - 🎧 **정상 음성 데이터셋 (AI Hub - 일상 대화 음성)**  
   https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=data&dataSetSn=470
 
+- 🧠 ** 모델 실행 시 활용되는 기준점 파일 (구글 드라이브 - 다운로드)**
+  https://drive.google.com/file/d/1U-vNzyiAM7a_svYLEx2shYbPGUq-qHKr/view?usp=drive_link
