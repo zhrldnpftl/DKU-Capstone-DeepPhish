@@ -10,8 +10,8 @@
 
 | 단계 | 파일명 | 설명 |
 |------|--------|------|
-| 0단계 | `0_FSS_audio_extract.ipynb` | 금융감독원(FSS) 보이스 피싱 음성 파일 웹사이트에서 추출 |
-| 1단계 | `1_voice_file_wav_conversion.ipynb` | 수집한 음성(mp4) → mp3 변환 → 최종 wav 변환 수행 |
+| 0단계 |[`0_FSS_audio_extract.ipynb`](https://colab.research.google.com/github/zhrldnpftl/DKU-Capstone-DeepPhish/blob/main/Voice-context-Detection/0_FSS_audio_extract.ipynb) | 금융감독원(FSS) 보이스 피싱 음성 파일 웹사이트에서 추출 |
+| 1단계 | [`1_voice_file_wav_conversion.ipynb`](https://colab.research.google.com/github/zhrldnpftl/DKU-Capstone-DeepPhish/blob/main/Voice-context-Detection/1_voice_file_wav_conversion.ipynb)  | 수집한 음성(mp4) → mp3 변환 → 최종 wav 변환 수행 |
 | 2단계 | `2_data_processing.ipynb` | 음성 전처리 (16kHz 샘플링, mono 채널 변환, max length 계산 등) |
 | 3단계 | `3_STT.ipynb` | 전처리된 음성 파일을 STT 변환하여 텍스트 추출 |
 | 4단계 | `4_KoBERT_01.ipynb` ~ `4_KoBERT_04_Final.ipynb` | STT 텍스트에 대해 KoBERT를 활용한 문맥 분류 |
